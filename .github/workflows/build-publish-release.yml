@@ -6,6 +6,10 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish:
     runs-on: macos-15  # 使用 macOS 以支持 iOS 构建
@@ -44,15 +48,16 @@ jobs:
 
       - name: Publish to GitHub Packages And Maven Central
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_USERNAME: ${{ github.actor }}
+          # GitHub Packages 凭证：属性名必须与仓库名 "GitHubPackages" 大小写一致
+          ORG_GRADLE_PROJECT_GitHubPackagesUsername: ${{ github.actor }}
+          ORG_GRADLE_PROJECT_GitHubPackagesPassword: ${{ secrets.GITHUB_TOKEN }}
+          # Maven Central（Central Portal）凭证
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralUsername }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralPassword }}
+          # GPG 签名（内存密钥）
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyId }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyPassword }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKey }}
         run: |
-          ./gradlew publishAllPublicationsToGitHubPackagesRepository \
-            -PGitHubPackagesUsername=$GITHUB_USERNAME \
-            -PGitHubPackagesPassword=$GITHUB_TOKEN
+          ./gradlew publishAllPublicationsToGitHubPackagesRepository
           ./gradlew publishToMavenCentral

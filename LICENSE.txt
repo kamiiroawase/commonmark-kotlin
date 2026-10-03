@@ -21,3 +21,21 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---
+
+Fork notice (the license above applies to all code in this repository):
+
+This software is a fork of commonmark-kotlin by Darrious Liu
+(https://github.com/darriousliu/commonmark-kotlin), a Kotlin Multiplatform
+port of commonmark-java (https://github.com/commonmark/commonmark-java),
+which is Copyright (c) 2015, Robin Stocker and contributors.
+
+The Kotlin Multiplatform port contains modifications
+Copyright (c) Darrious Liu.
+
+This fork contains further modifications
+Copyright (c) 2026 kamiiroawase.
+
+Redistributions of this software, in source or binary form, must retain the
+copyright notices and the BSD 2-Clause License text above.

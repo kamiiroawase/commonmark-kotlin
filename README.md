@@ -6,8 +6,9 @@
 [![Kotlin](https://img.shields.io/badge/kotlin-multiplatform-blue.svg?logo=kotlin)]([http://kotlinlang.org](https://www.jetbrains.com/kotlin-multiplatform/))
 
 一个用于解析 CommonMark Markdown 语法的 Kotlin
-多平台库，基于原始的 [commonmark-java](https://github.com/commonmark/commonmark-java) 项目改编，
-将 Java 文件全部转为 Kotlin 文件。
+多平台库。本项目 fork 自 [Darrious Liu 的 commonmark-kotlin](https://github.com/darriousliu/commonmark-kotlin)，
+后者将原始的 [commonmark-java](https://github.com/commonmark/commonmark-java) 项目的 Java 文件
+全部转为 Kotlin 文件，以支持 Kotlin 多平台。
 
 该库旨在让 `commonmark-java` 能用于 Kotlin 多平台，提供 CommonMark Markdown 语法的解析和渲染功能。
 
@@ -21,8 +22,10 @@
 ## 支持平台
 
 - **Android** - 安卓应用
-- **iOS** - 苹果应用
 - **JVM** - Java 虚拟机（桌面应用、服务器）
+- **iOS / macOS / watchOS / tvOS** - 苹果平台（Kotlin/Native）
+- **Windows / Linux** - 桌面原生平台（MinGW / Kotlin/Native）
+- **JS / WasmJS** - 浏览器与 Node.js
 
 ## 扩展
 
@@ -46,9 +49,16 @@
 将以下内容添加到 `settings.gradle.kts`：
 
 ```kotlin
-pluginManagement {
+dependencyResolutionManagement {
     repositories {
-        mavenCentral() // 或者 maven { url = uri("https://jitpack.io") }
+        mavenCentral()
+        // 也可以从 GitHub Packages 拉取（即使是公开包也需要 GitHub 认证）
+        // maven("https://maven.pkg.github.com/kamiiroawase/commonmark-kotlin") {
+        //     credentials {
+        //         username = System.getenv("GITHUB_ACTOR")
+        //         password = System.getenv("GITHUB_TOKEN")
+        //     }
+        // }
     }
 }
 ```
@@ -59,17 +69,17 @@ pluginManagement {
 
 ```kotlin
 dependencies {
-    implementation("io.github.darriousliu:commonmark:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark:0.26.0")
     // 可选扩展
-    implementation("io.github.darriousliu:commonmark-ext-autolink:0.26.0")
-    implementation("io.github.darriousliu:commonmark-ext-footnotes:0.26.0")
-    implementation("io.github.darriousliu:commonmark-ext-gfm-strikethrough:0.26.0")
-    implementation("io.github.darriousliu:commonmark-ext-gfm-tables:0.26.0")
-    implementation("io.github.darriousliu:commonmark-ext-heading-anchor:0.26.0")
-    implementation("io.github.darriousliu:commonmark-ext-image-attributes:0.26.0")
-    implementation("io.github.darriousliu:commonmark-ext-ins:0.26.0")
-    implementation("io.github.darriousliu:commonmark-ext-task-list-items:0.26.0")
-    implementation("io.github.darriousliu:commonmark-ext-latex:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-autolink:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-footnotes:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-gfm-strikethrough:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-gfm-tables:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-heading-anchor:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-image-attributes:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-ins:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-task-list-items:0.26.0")
+    implementation("io.github.kamiiroawase:commonmark-ext-latex:0.26.0")
 }
 ```
 
@@ -79,17 +89,17 @@ dependencies {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.darriousliu:commonmark:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark:0.26.0")
             // 可选扩展
-            implementation("io.github.darriousliu:commonmark-ext-autolink:0.26.0")
-            implementation("io.github.darriousliu:commonmark-ext-footnotes:0.26.0")
-            implementation("io.github.darriousliu:commonmark-ext-gfm-strikethrough:0.26.0")
-            implementation("io.github.darriousliu:commonmark-ext-gfm-tables:0.26.0")
-            implementation("io.github.darriousliu:commonmark-ext-heading-anchor:0.26.0")
-            implementation("io.github.darriousliu:commonmark-ext-image-attributes:0.26.0")
-            implementation("io.github.darriousliu:commonmark-ext-ins:0.26.0")
-            implementation("io.github.darriousliu:commonmark-ext-task-list-items:0.26.0")
-            implementation("io.github.darriousliu:commonmark-ext-latex:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-autolink:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-footnotes:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-gfm-strikethrough:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-gfm-tables:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-heading-anchor:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-image-attributes:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-ins:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-task-list-items:0.26.0")
+            implementation("io.github.kamiiroawase:commonmark-ext-latex:0.26.0")
         }
     }
 }
@@ -131,3 +141,39 @@ val html = renderer.render(document)
 ### 示例
 
 可参考 commonmark-java 项目的[示例](https://github.com/commonmark/commonmark-java#usage)
+
+## 许可证与致谢
+
+本项目采用 [BSD 2-Clause 许可证](LICENSE.txt) 发布，与上游保持一致。
+
+- 原始项目 [commonmark-java](https://github.com/commonmark/commonmark-java)，
+  Copyright (c) 2015, Robin Stocker 及贡献者
+- Kotlin 多平台移植版 [commonmark-kotlin](https://github.com/darriousliu/commonmark-kotlin)，
+  Copyright (c) Darrious Liu
+- 本 fork 的修改，Copyright (c) 2026 kamiiroawase
+
+依据 BSD 2-Clause 的要求，源码与二进制再分发时须保留上述版权声明与许可证文本。
+
+## 发布（维护者）
+
+构件发布到 **Maven Central**（坐标 `io.github.kamiiroawase`）和 **GitHub Packages**。
+推送 `v*` 标签或手动触发 [publish workflow](.github/workflows/build-publish-release.yml) 即可发布，需要先在仓库 Settings → Secrets → Actions 中配置：
+
+| Secret | 用途 |
+| --- | --- |
+| `ORG_GRADLE_PROJECT_mavenCentralUsername` / `ORG_GRADLE_PROJECT_mavenCentralPassword` | Central Portal（central.sonatype.com）账号与 API Token，需先完成 `io.github.kamiiroawase` 命名空间验证 |
+| `ORG_GRADLE_PROJECT_signingInMemoryKeyId` | GPG 密钥 ID（后 8 位），公钥需上传至 keyserver.ubuntu.com |
+| `ORG_GRADLE_PROJECT_signingInMemoryKey` | GPG 私钥（ASCII armor） |
+| `ORG_GRADLE_PROJECT_signingInMemoryKeyPassword` | GPG 私钥口令（没有则设为空） |
+
+GitHub Packages 使用工作流自带的 `GITHUB_TOKEN`，无需额外配置。本地发布：
+
+```bash
+# GitHub Packages（本地执行时通过环境变量提供凭证，属性名大小写须一致）
+ORG_GRADLE_PROJECT_GitHubPackagesUsername=<GitHub用户名> \
+ORG_GRADLE_PROJECT_GitHubPackagesPassword=<PAT, 需 write:packages 权限> \
+./gradlew publishAllPublicationsToGitHubPackagesRepository
+
+# Maven Central
+./gradlew publishToMavenCentral
+```
