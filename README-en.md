@@ -53,14 +53,6 @@ Add the following to your `settings.gradle.kts`:
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
-        // Alternatively, pull from GitHub Packages (GitHub authentication is
-        // required even for public packages)
-        // maven("https://maven.pkg.github.com/kamiiroawase/commonmark-kotlin") {
-        //     credentials {
-        //         username = System.getenv("GITHUB_ACTOR")
-        //         password = System.getenv("GITHUB_TOKEN")
-        //     }
-        // }
     }
 }
 ```
@@ -159,8 +151,8 @@ the copyright notices above and the license text.
 
 ## Publishing (maintainers)
 
-Artifacts are published to **Maven Central** (coordinates `io.github.kamiiroawase`) and
-**GitHub Packages**. Push a `v*` tag or manually trigger the
+Artifacts are published to **Maven Central** (coordinates `io.github.kamiiroawase`).
+Push a `v*` tag or manually trigger the
 [publish workflow](.github/workflows/build-publish-release.yml). Configure the following in
 repository Settings → Secrets → Actions first:
 
@@ -171,15 +163,8 @@ repository Settings → Secrets → Actions first:
 | `ORG_GRADLE_PROJECT_signingInMemoryKey` | GPG private key (ASCII armor) |
 | `ORG_GRADLE_PROJECT_signingInMemoryKeyPassword` | GPG private key passphrase (empty if none) |
 
-GitHub Packages uses the workflow's built-in `GITHUB_TOKEN`; no extra setup is needed. To publish locally:
+To publish locally:
 
 ```bash
-# GitHub Packages (provide credentials via environment variables; the property
-# name must match the repository name's casing)
-ORG_GRADLE_PROJECT_GitHubPackagesUsername=<GitHub username> \
-ORG_GRADLE_PROJECT_GitHubPackagesPassword=<PAT with write:packages scope> \
-./gradlew publishAllPublicationsToGitHubPackagesRepository
-
-# Maven Central
 ./gradlew publishToMavenCentral
 ```

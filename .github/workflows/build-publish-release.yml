@@ -1,4 +1,4 @@
-name: Publish to Maven Repositories
+name: Publish to Maven Central
 
 on:
   workflow_dispatch:
@@ -6,14 +6,10 @@ on:
     tags:
       - 'v*'
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   publish:
     runs-on: macos-15  # 使用 macOS 以支持 iOS 构建
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -46,11 +42,8 @@ jobs:
       - name: Validate Gradle Wrapper
         run: ./gradlew --version
 
-      - name: Publish to GitHub Packages And Maven Central
+      - name: Publish to Maven Central
         env:
-          # GitHub Packages 凭证：属性名必须与仓库名 "GitHubPackages" 大小写一致
-          ORG_GRADLE_PROJECT_GitHubPackagesUsername: ${{ github.actor }}
-          ORG_GRADLE_PROJECT_GitHubPackagesPassword: ${{ secrets.GITHUB_TOKEN }}
           # Maven Central（Central Portal）凭证
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralUsername }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.ORG_GRADLE_PROJECT_mavenCentralPassword }}
@@ -58,6 +51,4 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyId }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKeyPassword }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.ORG_GRADLE_PROJECT_signingInMemoryKey }}
-        run: |
-          ./gradlew publishAllPublicationsToGitHubPackagesRepository
-          ./gradlew publishToMavenCentral
+        run: ./gradlew publishToMavenCentral

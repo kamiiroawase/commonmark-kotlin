@@ -36,16 +36,6 @@ val commonPom = Action<MavenPom> {
 }
 
 publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/kamiiroawase/commonmark-kotlin")
-            // 凭证读取项目属性 GitHubPackagesUsername / GitHubPackagesPassword
-            // （属性名与仓库名大小写一致；可用 -P 或
-            // ORG_GRADLE_PROJECT_GitHubPackagesUsername 环境变量提供）
-            credentials(PasswordCredentials::class)
-        }
-    }
     publications {
         publications.withType<MavenPublication> {
             groupId = project.group.toString()

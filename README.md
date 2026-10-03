@@ -52,13 +52,6 @@
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
-        // 也可以从 GitHub Packages 拉取（即使是公开包也需要 GitHub 认证）
-        // maven("https://maven.pkg.github.com/kamiiroawase/commonmark-kotlin") {
-        //     credentials {
-        //         username = System.getenv("GITHUB_ACTOR")
-        //         password = System.getenv("GITHUB_TOKEN")
-        //     }
-        // }
     }
 }
 ```
@@ -156,7 +149,7 @@ val html = renderer.render(document)
 
 ## 发布（维护者）
 
-构件发布到 **Maven Central**（坐标 `io.github.kamiiroawase`）和 **GitHub Packages**。
+构件发布到 **Maven Central**（坐标 `io.github.kamiiroawase`）。
 推送 `v*` 标签或手动触发 [publish workflow](.github/workflows/build-publish-release.yml) 即可发布，需要先在仓库 Settings → Secrets → Actions 中配置：
 
 | Secret | 用途 |
@@ -166,14 +159,8 @@ val html = renderer.render(document)
 | `ORG_GRADLE_PROJECT_signingInMemoryKey` | GPG 私钥（ASCII armor） |
 | `ORG_GRADLE_PROJECT_signingInMemoryKeyPassword` | GPG 私钥口令（没有则设为空） |
 
-GitHub Packages 使用工作流自带的 `GITHUB_TOKEN`，无需额外配置。本地发布：
+本地发布：
 
 ```bash
-# GitHub Packages（本地执行时通过环境变量提供凭证，属性名大小写须一致）
-ORG_GRADLE_PROJECT_GitHubPackagesUsername=<GitHub用户名> \
-ORG_GRADLE_PROJECT_GitHubPackagesPassword=<PAT, 需 write:packages 权限> \
-./gradlew publishAllPublicationsToGitHubPackagesRepository
-
-# Maven Central
 ./gradlew publishToMavenCentral
 ```
